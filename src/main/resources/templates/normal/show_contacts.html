@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class="card me-3 ms-3 ">
+		
+			<div class="card-body ">
+				
+					
+					<h1 class="text-center text-success">Your Contacts</h1>
+					
+						    <!-- search box -->
+
+						<div class="container  mt-5">
+						<div class="card ">
+					 <div class="table-responsive">
+						<table class="table table-hover mt-4 table-bordered">
+							  <thead class="table-dark text-info ">
+							 
+								    <tr>
+									      <th scope="col">#Id</th>
+									      <th scope="col">Name</th>
+									      <th scope="col">Email</th>
+									      <th scope="col">Phone</th>
+									      <th scope="col">Work</th>
+									      <th scope="col">Action</th>
+								    </tr>
+							  </thead>
+							  <tbody>
+									    <tr th:each="c:${contacts}">
+										      <th scope="row" th:text="${'SCM2021'+c.cId}">1</th>
+										      <td >  
+										      	<img 
+										      		
+										      	class=" profile_pic"   th:src="@{'/img/'+${c.imgUrl}}" alt="profile" src="">
+										      <span th:text="${c.name}"></span>
+										       </td>
+										      <td >
+										      
+										      	<a href="#" th:href="@{'/user/'+${c.cId}+'/contact_details'}">
+										      		<span th:text="${c.email}"></span>
+										      	</a>
+										      		
+										      		
+										      </td>
+										      <td th:text="${c.phone}">@mdo</td>
+										      <td th:text="${c.work}">Otto</td>
+										      <td class=" mt-1"  >
+										      		<!-- th:href="@{'/user/delete/'+${c.cId}}" -->
+										      	<a   										      
+										      		th:onclick="|deleteContact(${c.cId})|"
+										      	class="btn btn-danger btn-sm">Delete</a>
+										      <form method="post" th:action="@{'/user/update_contact/'+${c.cId}}">
+										      	    <button class="btn btn-warning btn-block ms-3" >
+										      	    Update</button > 
+										      	    </form>
+										      
+										      </td>
+									    </tr>
+							   
+							  </tbody>
+					</table>
+					
+					
+					
+				<nav aria-label="Page navigation example">
+					
+					  <ul class="pagination">
+					  
+					    <li  th:if="${currentPage != 0}"  class="page-item">
+					    
+					      <a class="page-link" href="#" 
+					      th:href="@{'/user/show_contacts/'+${currentPage-1}}"
+					      aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					        <span class="sr-only">Previous</span>
+					      </a>
+					    </li>
+					    <li  th:each="i:${#numbers.sequence(1,totalPages)}" 
+					    	th:classappend="${currentPage==i-1?'active':''}"
+					     class="page-item">
+					     
+					     	<a class="page-link" 
+					     			th:href="@{'/user/show_contacts/'+${i-1}}" href="#">
+					     
+					   			 <span th:text="${i}"></span>
+					    	</a>
+					    </li>
+					    <li  th:if="${currentPage+1 != totalPages}"  class="page-item">
+					      <a class="page-link"	
+					      
+					      th:href="@{'/user/show_contacts/'+${currentPage+1}}"				      	
+					       href="#" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					        <span class="sr-only">Next</span>
+					      </a>
+					    </li>
+					  </ul>
+					</nav>
+</div>
+				</div>
+		</div>
+				<div class="card  ">
+					<div class="search-box">
+						<input
+								onkeyup="search()"
+								id="serach_input"
+								type="text"
+								class="form-control"
+								placeholder="search here"/>
+
+						<div class="search_result">
+
+						</div>
+					</div>
+				</div>
+		    </div>
+		    
+	
+		</div>
+		<script>
+		$(document).ready(()=>{
+				$('.item').removeClass('active');	
+				$('#contact-link').addClass('active');	
+				
+		});
+	</script>
+	</section>
+
+</body>
+</html>
